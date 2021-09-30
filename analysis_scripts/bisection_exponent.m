@@ -1,7 +1,12 @@
-function [alpha_best,P_ret]=bisection_exponent(G_veh,m,L,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class)
+function [alpha_best,P_ret]=bisection_exponent(G_veh,m,L,alpha_lims,tolerences,multiplier_class)
 % This function runs a bisection algorithm for obtaining the best
 % exponent alpha by calling the analysis routine for a fixed alpha
 % multiple times.
+    
+    % Get tolernces
+    cond_tol=tolerences.cond_tol;
+    cvx_tol=tolerences.cvx_tol;
+    bisect_tol=tolerences.bisect_tol;
     
     % Analyze for alpha=alpha_low
     switch multiplier_class.id

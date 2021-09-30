@@ -4,16 +4,18 @@ close all
 clear
 clc
 addpath('..\analysis_scripts')
-save_data=0;
+save_data=1;
 %% Setup optimization
 
 % Sector bounds
 m=1; % lower bound on the sector
 L=1:0.2:9;  % Upper bound on the sector
 n_L=length(L);
-cvx_tol=1e-3;
-bisect_tol=1e-3;
-cond_tol=1e8;
+
+% Optimization tolerences
+tolerences.cvx_tol=1e-3;
+tolerences.bisect_tol=1e-3;
+tolerences.cond_tol=1e8;
 
 % Quadrotor dynamics 
 addpath(genpath('..\vehicles\quadrotor'))
@@ -56,8 +58,10 @@ for i=1:4
         save_path=['.\data\mult_flag_anti_causal_',num2str(multiplier_flag(1,i))];
     end    
     alpha_lims=[0,10]; % Initial range for the bisection algorithm
-    [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class);
-    save(save_path);
+    [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,tolerences,multiplier_class);
+    if save_data==1 
+        save(save_path); 
+    end
 end
 % Generate example quadratic fields (Linear feedback) to test conservatism
 alpha_best=zeros(1,n_L);
@@ -73,7 +77,7 @@ plot_data
 %% Functions
 % This functions sweeps L and finds the best covergence rate estimate by
 % running a bisection algorithm for each fixed L
-function [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class)
+function [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,tolerences,multiplier_class)
     n_L=size(L,2);    
     alpha_best=zeros(1,n_L);    
     for j=1:n_L
@@ -81,7 +85,7 @@ function [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,cond_tol,cvx_tol,bisect_tol,m
                 alpha_best(1,j)=-1;            
             else       
                 L_curr=L(j);
-                [alpha_best(1,j),~]=bisection_exponent(G_veh,m,L_curr,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class);
+                [alpha_best(1,j),~]=bisection_exponent(G_veh,m,L_curr,alpha_lims,tolerences,multiplier_class);
             end
     end    
 end

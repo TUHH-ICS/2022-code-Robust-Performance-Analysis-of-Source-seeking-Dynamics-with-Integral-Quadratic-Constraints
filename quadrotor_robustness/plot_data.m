@@ -14,6 +14,7 @@ xlabel('L')
 ylabel('$\alpha$')
 ylim([0,0.5])
 title('Convergence rates(exponents) for Quadrotor')
+savefig('quadrotor_robustness')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function []=plot_data_perf(file,plot_style)
     save_path=['.\',file];
