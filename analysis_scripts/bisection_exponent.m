@@ -22,6 +22,12 @@ function [alpha_best,P_ret]=bisection_exponent(G_veh,m,L,alpha_lims,tolerences,m
             odd_flag=multiplier_class.odd_flag;
             causal_flag=multiplier_class.causal_flag; % 1: causal, -1:anti-causal, 0:non-causal 
             [status,P_ret]=verify_exp_stab_ZF_basis(G_veh,alpha_lims(1),m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
+        case 7
+            rho=multiplier_class.rho;
+            psi_order=multiplier_class.psi_order;
+            odd_flag=multiplier_class.odd_flag;
+            causal_flag=multiplier_class.causal_flag; % 1: causal, -1:anti-causal, 0:non-causal 
+            [status,P_ret]=verify_exp_stab_ZF_basis_LPV_example(G_veh,alpha_lims(1),m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
     end
 
     if ~status
@@ -40,6 +46,8 @@ function [alpha_best,P_ret]=bisection_exponent(G_veh,m,L,alpha_lims,tolerences,m
             [status,P]=verify_exp_stab_ZF(G_veh,alpha_lims(2),m,L,cond_tol,cvx_tol);        
         case 6
             [status,P]=verify_exp_stab_ZF_basis(G_veh,alpha_lims(2),m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
+        case 7
+            [status,P]=verify_exp_stab_ZF_basis_LPV_example(G_veh,alpha_lims(2),m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
     end    
     if status        
         alpha_best=alpha_lims(2); % Return alpha_high if feasible
@@ -58,6 +66,8 @@ function [alpha_best,P_ret]=bisection_exponent(G_veh,m,L,alpha_lims,tolerences,m
                 [status,P]=verify_exp_stab_ZF(G_veh,alpha_mid,m,L,cond_tol,cvx_tol);            
             case 6
                 [status,P]=verify_exp_stab_ZF_basis(G_veh,alpha_mid,m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
+            case 7
+                [status,P]=verify_exp_stab_ZF_basis_LPV_example(G_veh,alpha_mid,m,L,odd_flag,causal_flag,rho,psi_order,cond_tol,cvx_tol);
         end            
         if status
             alpha_lims(1)=alpha_mid;
