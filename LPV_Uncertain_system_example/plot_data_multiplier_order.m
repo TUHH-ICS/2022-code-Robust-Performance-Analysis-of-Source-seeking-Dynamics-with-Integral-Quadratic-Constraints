@@ -4,19 +4,18 @@ clc
 %% Convergence rate estimates for different multiplier
 figure()
 %plot_data_perf('.\data\mult_flag_CC_1','ro')
-hold on    
-plot_data_perf('.\data\mult_flag_causal_71','g--')
-plot_data_perf('.\data\mult_flag_anti_causal_69','b-.')
-plot_data_perf('.\data\mult_flag_non_causal_70','c')
-plot_data_perf('.\data\mult_flag_non_causal_70','k:')
+   
+plot_data_perf('.\data\mult_flag_order_1_non_causal_701','g--')
+hold on 
+plot_data_perf('.\data\mult_flag_order_2_non_causal_702','b-.')
+plot_data_perf('.\data\mult_flag_order_3_non_causal_703','c')
 plot_data_perf('.\data\lb_lin','k*')
-%legend('CC(P_1=0,P_3=0)','ZF causal (P_1=0)','ZF anti-causal (P_3=0)','ZF','Example fields')
-legend('ZF causal (P_1=0)','ZF anti-causal (P_3=0)','ZF','ZF order 5','Example fields')
+legend('ZF non-causal (order=1)','ZF non-causal (order=2)','ZF non-causal (order=3)','Example fields')
 xlabel('L')
 ylabel('\alpha')
-ylim([0,1])
-title('Convergence rates(exponents) for Quadrotor')
-savefig('LPV_mass_with_friction_robustness')
+ylim([0,0.5])
+title('Convergence rates(exponents) for mass with friction')
+savefig('multiplier_order_comparison')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function []=plot_data_perf(file,plot_style)
     save_path=['.\',file];
