@@ -4,6 +4,7 @@ close all
 clear
 clc
 save_data=1;
+addpath(genpath('..\analysis_scripts'))
 %% Setup optimization
 
 % Sector bounds
@@ -18,10 +19,19 @@ tolerences.cond_tol=1e8;
 
 % Mass with friction dynamics
 kp=[1,1];
-kd=[0.8,1.2];
+kd=[5,10];
 mass=[1,1];
 dim=2;% spatial dimension (of positions and velocities)
 G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
+
+% % Quadrotor dynamics 
+% addpath(genpath('..\vehicles\quadrotor'))
+% kp=[1,1];
+% kd=[5,5];
+% mass=[0.5,2];
+% dim=2;% spatial dimension (of positions and velocities)
+% % Current implementation only supports dim=2 for quadrotors
+% G_veh=define_G_quad_LPV_wrapped(dim,kp,kd,mass);       
 
 % Multiplier class
 % Select a multiplier class from the following choices
