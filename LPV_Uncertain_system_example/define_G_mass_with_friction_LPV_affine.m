@@ -6,12 +6,12 @@ function [G_veh]=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp)
 
 %% Generic second order vehicle: mass with friction in 1D
 inv_mass1=1/mass(1);
-A1=[0 1; 0 -kd*inv_mass1]; 
-B1=[0;1*inv_mass1*kp];
+A1=[0 1; 0 -kd(1)*inv_mass1]; 
+B1=[0;1*inv_mass1*kp(1)];
 
 inv_mass2=1/mass(2);
-A2=[0 1; 0 -kd*inv_mass2]; 
-B2=[0;1*inv_mass2*kp];
+A2=[0 1; 0 -kd(2)*inv_mass2]; 
+B2=[0;1*inv_mass2*kp(2)];
 
 C=[1 0];
 D=0;

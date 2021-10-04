@@ -8,7 +8,7 @@ save_data=1;
 
 % Sector bounds
 m=1; % lower bound on the sector
-L=1:1:20;  % Upper bound on the sector
+L=1:1:30;  % Upper bound on the sector
 n_L=length(L);
 
 % Optimization tolerences
@@ -17,9 +17,9 @@ tolerences.bisect_tol=1e-3;
 tolerences.cond_tol=1e8;
 
 % Mass with friction dynamics
-kp=1;
-kd=1;
-mass=[0.9,1.1];
+kp=[1,1];
+kd=[0.8,1.2];
+mass=[1,1];
 dim=2;% spatial dimension (of positions and velocities)
 G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
 
@@ -28,8 +28,8 @@ G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
 % 1. Circle criterion
 % 2. Full block circle criterion
 % 3. Zames Falb multipliers
-multiplier_flag=[1,70,71,69,705];
-for i=5:5
+multiplier_flag=[1,70,71,69,702,703,704,705];
+for i=2:8
     switch multiplier_flag(1,i)
     case 1
 %         multiplier_class.id=1;
@@ -55,13 +55,34 @@ for i=5:5
         multiplier_class.odd_flag=0;
         multiplier_class.causal_flag=-1; % 1: causal, -1:anti-causal, 0:non-causal
         save_path=['.\data\mult_flag_anti_causal_',num2str(multiplier_flag(1,i))];
+    case 702  
+        multiplier_class.id=7;
+        multiplier_class.rho=-1;
+        multiplier_class.psi_order=2;
+        multiplier_class.odd_flag=0;
+        multiplier_class.causal_flag=0; % 1: causal, -1:anti-causal, 0:non-causal
+        save_path=['.\data\mult_flag_non_causal_',num2str(multiplier_flag(1,i))];
+    case 703  
+        multiplier_class.id=7;
+        multiplier_class.rho=-1;
+        multiplier_class.psi_order=3;
+        multiplier_class.odd_flag=0;
+        multiplier_class.causal_flag=0; % 1: causal, -1:anti-causal, 0:non-causal
+        save_path=['.\data\mult_flag_non_causal_',num2str(multiplier_flag(1,i))];
+    case 704  
+        multiplier_class.id=7;
+        multiplier_class.rho=-1;
+        multiplier_class.psi_order=4;
+        multiplier_class.odd_flag=0;
+        multiplier_class.causal_flag=0; % 1: causal, -1:anti-causal, 0:non-causal
+        save_path=['.\data\mult_flag_non_causal_',num2str(multiplier_flag(1,i))];
     case 705  
         multiplier_class.id=7;
         multiplier_class.rho=-1;
         multiplier_class.psi_order=5;
         multiplier_class.odd_flag=0;
-        multiplier_class.causal_flag=-1; % 1: causal, -1:anti-causal, 0:non-causal
-        save_path=['.\data\mult_flag_anti_causal_',num2str(multiplier_flag(1,i))];
+        multiplier_class.causal_flag=0; % 1: causal, -1:anti-causal, 0:non-causal
+        save_path=['.\data\mult_flag_non_causal_',num2str(multiplier_flag(1,i))];
     end    
     alpha_lims=[0,10]; % Initial range for the bisection algorithm
     [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,tolerences,multiplier_class);
