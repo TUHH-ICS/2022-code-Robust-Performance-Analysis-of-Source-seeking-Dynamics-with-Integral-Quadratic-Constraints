@@ -18,7 +18,7 @@ plot_data_perf('.\data\lb_lin','k*')
 legend('ZF causal (P_1=0)','ZF anti-causal (P_3=0)','ZF order 1','ZF order 2','ZF order 3','ZF order 4','ZF order 5','Example fields')
 xlabel('L')
 ylabel('\alpha')
-ylim([0,1])
+ylim([0,0.5])
 title('Convergence rates(exponents) for mass with friction, uncertain kd')
 savefig('LPV_mass_with_friction_robustness')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

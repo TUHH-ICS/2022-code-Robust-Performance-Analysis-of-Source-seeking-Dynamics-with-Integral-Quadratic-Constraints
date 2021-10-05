@@ -9,7 +9,7 @@ addpath(genpath('..\analysis_scripts'))
 
 % Sector bounds
 m=1; % lower bound on the sector
-L=1:1:30;  % Upper bound on the sector
+L=1:0.5:10;  % Upper bound on the sector
 n_L=length(L);
 
 % Optimization tolerences
@@ -17,21 +17,21 @@ tolerences.cvx_tol=1e-3;
 tolerences.bisect_tol=1e-3;
 tolerences.cond_tol=1e8;
 
-% Mass with friction dynamics
-kp=[1,1];
-kd=[5,10];
-mass=[1,1];
-dim=2;% spatial dimension (of positions and velocities)
-G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
-
-% % Quadrotor dynamics 
-% addpath(genpath('..\vehicles\quadrotor'))
+% % Mass with friction dynamics
 % kp=[1,1];
-% kd=[5,5];
-% mass=[0.5,2];
+% kd=[5,10];
+% mass=[1,1];
 % dim=2;% spatial dimension (of positions and velocities)
-% % Current implementation only supports dim=2 for quadrotors
-% G_veh=define_G_quad_LPV_wrapped(dim,kp,kd,mass);       
+% G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
+
+% Quadrotor dynamics 
+addpath(genpath('..\vehicles\quadrotor'))
+kp=[1,1];
+kd=[5,5];
+mass=[0.2,2];
+dim=2;% spatial dimension (of positions and velocities)
+% Current implementation only supports dim=2 for quadrotors
+G_veh=define_G_quad_LPV_wrapped(dim,kp,kd,mass);       
 
 % Multiplier class
 % Select a multiplier class from the following choices
