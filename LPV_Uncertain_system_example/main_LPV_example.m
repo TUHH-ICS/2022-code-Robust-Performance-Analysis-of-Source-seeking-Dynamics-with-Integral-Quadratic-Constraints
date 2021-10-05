@@ -9,29 +9,50 @@ addpath(genpath('..\analysis_scripts'))
 
 % Sector bounds
 m=1; % lower bound on the sector
-L=1:0.5:10;  % Upper bound on the sector
-n_L=length(L);
 
 % Optimization tolerences
 tolerences.cvx_tol=1e-3;
 tolerences.bisect_tol=1e-3;
 tolerences.cond_tol=1e8;
 
-% % Mass with friction dynamics
-% kp=[1,1];
-% kd=[5,10];
-% mass=[1,1];
-% dim=2;% spatial dimension (of positions and velocities)
-% G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
-
-% Quadrotor dynamics 
-addpath(genpath('..\vehicles\quadrotor'))
-kp=[1,1];
-kd=[5,5];
-mass=[0.2,2];
-dim=2;% spatial dimension (of positions and velocities)
-% Current implementation only supports dim=2 for quadrotors
-G_veh=define_G_quad_LPV_wrapped(dim,kp,kd,mass);       
+% Examples
+% 1. LPV example: Mass with varying kd
+% 2. Uncertain quadrotor with varying quadrotor mass
+example=1;
+switch example
+    case 1
+        % % Mass with friction dynamics
+        kp=[1,1];
+        % Varying parameter: 1: mass, 2: kd
+        varying_param=2;
+        switch varying_param
+            case 1               
+                kd=[1,1];
+                mass=[0.8,1.2];
+            case 2                     
+                kd=[0.8,1.2];
+                mass=[1,1];
+        end
+        L=1:2:30;  % Upper bound on the sector
+        n_L=length(L);
+        dim=2;% spatial dimension (of positions and velocities)
+        addpath(genpath('..\vehicles\LPV_models'))
+        G_veh=define_G_mass_with_friction_LPV_affine(dim,kd,mass,kp);
+        fig_name='LPV_mass_with_varying_kd';
+    case 2
+        % Quadrotor dynamics 
+        addpath(genpath('..\vehicles\quadrotor'))
+        addpath(genpath('..\vehicles\LPV_models'))
+        kp=[1,1];
+        kd=[5,5];
+        mass=[0.2,2];
+        L=1:0.5:10;  % Upper bound on the sector
+        n_L=length(L);
+        dim=2;% spatial dimension (of positions and velocities)
+        % Current implementation only supports dim=2 for quadrotors
+        G_veh=define_G_quad_LPV_wrapped(dim,kp,kd,mass); 
+        fig_name='quad_with_uncertain_mass';
+end
 
 % Multiplier class
 % Select a multiplier class from the following choices

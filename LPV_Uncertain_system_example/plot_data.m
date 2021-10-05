@@ -19,8 +19,7 @@ legend('ZF causal (P_1=0)','ZF anti-causal (P_3=0)','ZF order 1','ZF order 2','Z
 xlabel('L')
 ylabel('\alpha')
 ylim([0,0.5])
-title('Convergence rates(exponents) for mass with friction, uncertain kd')
-savefig('LPV_mass_with_friction_robustness')
+title('Convergence rates(exponents)')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function []=plot_data_perf(file,plot_style)
     save_path=['.\',file];
