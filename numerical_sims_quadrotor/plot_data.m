@@ -2,15 +2,16 @@
 clear
 clc
 %%
-ZF_data=load('.\data\kp_1_kd_10');
+ZF_data=load('.\data\kp_1_kd_9');
 CC_data=load('.\data\kp_1_kd_18');
+sub_sample=100;
 % Plot trajectories on a linear scale
 figure()
-plot(CC_data.time,CC_data.trajs.y(1,:),'--')
+plot(CC_data.time(1:sub_sample:end),CC_data.trajs.y(1,1:sub_sample:end),'--')
 hold on
-plot(CC_data.time,CC_data.trajs.y(2,:),'--')
-plot(ZF_data.time,ZF_data.trajs.y(1,:))
-plot(ZF_data.time,ZF_data.trajs.y(2,:))
+plot(CC_data.time(1:sub_sample:end),CC_data.trajs.y(2,1:sub_sample:end),'--')
+plot(ZF_data.time(1:sub_sample:end),ZF_data.trajs.y(1,1:sub_sample:end))
+plot(ZF_data.time(1:sub_sample:end),ZF_data.trajs.y(2,1:sub_sample:end))
 legend('x CC','y CC','x ZF','y ZF')
 xlabel('time')
 ylabel('x')

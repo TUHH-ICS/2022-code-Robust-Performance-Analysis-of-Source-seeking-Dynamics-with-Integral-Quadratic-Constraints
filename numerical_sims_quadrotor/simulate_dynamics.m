@@ -12,14 +12,14 @@ Veh_mod=2;
 switch(Veh_mod)
     case 1
         % Mass with friction dynamics
-        addpath(genpath('.\vehicles\mass_with_friction'))
+        addpath(genpath('..\vehicles\mass_with_friction'))
         rng(1)
         c_damp=1+rand;mass=1+rand;step_size=1;
         dim=2;% spatial dimension (of positions and velocities)
         G_veh=define_G_mass_with_friction_wrapped(dim,c_damp,mass,step_size);
     case 2
         % Quadrotor dynamics
-        addpath(genpath('.\vehicles\quadrotor'))
+        addpath(genpath('..\vehicles\quadrotor'))
         dim=2;% spatial dimension (of positions and velocities)
         % Current implementation only supports dim=2 for quadrotors
         kp=1;kd=18;
@@ -37,7 +37,7 @@ end
 
 % Sector bounds
 m=1; % lower bound on the sector
-L=10;  % Upper bound on the sector
+L=5;  % Upper bound on the sector
 
 
 %% Numerically simulate the dynamics
