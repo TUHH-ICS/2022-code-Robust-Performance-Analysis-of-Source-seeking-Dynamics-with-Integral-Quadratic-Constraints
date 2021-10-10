@@ -130,8 +130,8 @@ function [status,X]=verify_exp_stab_alpha_ZF_basis_LMI(PSI_GI,psi_alpha,psi_b_ti
         if n_psi_ch==1
             pos_Lemma(P1)>=tol*eye(n_psi_ch);
             pos_Lemma(P3)>=tol*eye(n_psi_ch);
-            pos_Lemma(P2)>=tol*eye(n_psi);
-            pos_Lemma(P4)>=tol*eye(n_psi);
+            pos_Lemma(P2)>=tol*eye(n_psi_ch);
+            pos_Lemma(P4)>=tol*eye(n_psi_ch);
         elseif n_psi_ch>=2
             X1>=tol*eye(n_psi_til)
             pos_Lemma(X1,P1)>=tol*eye(n_psi_til+1);
