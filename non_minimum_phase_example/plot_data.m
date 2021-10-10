@@ -14,7 +14,6 @@ xlabel('L')
 ylabel('\alpha')
 ylim([0,0.5])
 title('Convergence rates(exponents) for non-minimum phase example')
-savefig('non_minimum_example_robustness')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 function []=plot_data_perf(file,plot_style)
     save_path=['.\',file];
