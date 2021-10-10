@@ -12,15 +12,14 @@ addpath(genpath('..\vehicles\quadrotor'))
 m=1; % lower bound on the sector
 L=10;  % Upper bound on the sector
 
-% Optimization properties
-cvx_tol=1e-3;
-bisect_tol=1e-3;
-cond_tol=100000000;
+% Optimization tolerences
+tolerences.cvx_tol=1e-3;
+tolerences.bisect_tol=1e-3;
+tolerences.cond_tol=1e8;
 
 
 kp=1;
 kd=[1:0.5:14,16:2:30];
-
 
 
 % Multiplier class
@@ -57,7 +56,7 @@ for i=1:4
         save_path=['.\data\mult_flag_anti_causal_',num2str(multiplier_flag(1,i))];
     end    
     alpha_lims=[0,10]; % Initial range for the bisection algorithm
-    [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class);
+    [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,tolerences,multiplier_class);
     save(save_path);
 end
 %% Plot data
@@ -65,7 +64,7 @@ plot_data
 %% Functions
 % This functions sweeps kp,kd and finds the best covergence rate estimate 
 % by running a bisection algorithm for each fixed kp,kd
-function [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class)    
+function [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,tolerences,multiplier_class)    
     n_p=length(kp);
     n_d=length(kd);
     alpha_best=zeros(n_p,n_d);   
@@ -77,7 +76,7 @@ function [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,cond_tol,cvx_tol,bisect_t
             % Current implementation only supports dim=2 for quadrotors
             dim=2;% spatial dimension (of positions and velocities)
             G_veh=define_G_quad_wrapped(dim,kp_curr,kd_curr); 
-            [alpha_best(i,j),~]=bisection_exponent(G_veh,m,L,alpha_lims,cond_tol,cvx_tol,bisect_tol,multiplier_class);        
+            [alpha_best(i,j),~]=bisection_exponent(G_veh,m,L,alpha_lims,tolerences,multiplier_class);        
         end        
     end   
 end
