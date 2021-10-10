@@ -12,7 +12,6 @@ plot_data_perf('.\data\lb_lin','k*')
 legend('CC($P_1=0,P_3=0$)','ZF causal ($P_1=0$)','ZF anti-causal ($P_3=0$)','ZF','Example fields')
 xlabel('L')
 ylabel('$\alpha$')
-ylim([0,0.5])
 title('Convergence rates(exponents) for non-minimum phase example')
 savefig('example_convergence_rate')
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%

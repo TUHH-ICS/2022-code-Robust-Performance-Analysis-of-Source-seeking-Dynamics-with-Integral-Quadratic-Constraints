@@ -14,7 +14,7 @@ switch example
         G_veh=tf([3,3],[1,1,25,0,0]);
         % Sector bounds
         m=1; % lower bound on the sector
-        L=1:0.1:3;  % Upper bound on the sector
+        L=1:0.5:8;  % Upper bound on the sector
         n_L=length(L);
     case 2
         % Example from Chen and Wen(not a vehicle): the optimal multiplier method
@@ -22,7 +22,7 @@ switch example
         G_veh=tf([1,1],[1,1,25,0,0]);
         % Sector bounds
         m=1; % lower bound on the sector
-        L=1:0.1:3;  % Upper bound on the sector
+        L=1:0.5:10;  % Upper bound on the sector
         n_L=length(L);
     case 3
         % Example from Scherer and Weiland, LMI notes in control
@@ -44,8 +44,8 @@ switch example
         D=zeros(3);D(3,2)=1;
         G_veh=ss(A,B,C,D);
         % Sector bounds
-        m=1; % lower bound on the sector
-        L=1:0.1:3;  % Upper bound on the sector
+        m=0; % lower bound on the sector
+        L=0:0.1:1;  % Upper bound on the sector
         n_L=length(L);
     case 5
         % Example from Fetzer and Scherer page 3389 Example 4.9 (not a vehicle)
@@ -62,8 +62,8 @@ switch example
         D=zeros(4);
         G_veh=ss(A,B,C,D);
         % Sector bounds
-        m=1; % lower bound on the sector
-        L=1:0.1:3;  % Upper bound on the sector
+        m=0; % lower bound on the sector
+        L=0:0.1:3;  % Upper bound on the sector
         n_L=length(L);
 end
 
@@ -90,21 +90,21 @@ for i=1:4
         multiplier_class.id=6;
         multiplier_class.rho=-1;
         multiplier_class.psi_order=1;
-        multiplier_class.odd_flag=0;
+        multiplier_class.odd_flag=1;
         multiplier_class.causal_flag=0; % 1: causal, -1:anti-causal, 0:non-causal
         save_path=['.\data\mult_flag_non_causal_',num2str(multiplier_flag(1,i))];
     case 61  
         multiplier_class.id=6;
         multiplier_class.rho=-1;
         multiplier_class.psi_order=1;
-        multiplier_class.odd_flag=0;
+        multiplier_class.odd_flag=1;
         multiplier_class.causal_flag=1; % 1: causal, -1:anti-causal, 0:non-causal
         save_path=['.\data\mult_flag_causal_',num2str(multiplier_flag(1,i))];
     case 59  
         multiplier_class.id=6;
         multiplier_class.rho=-1;
         multiplier_class.psi_order=1;
-        multiplier_class.odd_flag=0;
+        multiplier_class.odd_flag=1;
         multiplier_class.causal_flag=-1; % 1: causal, -1:anti-causal, 0:non-causal
         save_path=['.\data\mult_flag_anti_causal_',num2str(multiplier_flag(1,i))];
     end    
@@ -116,8 +116,16 @@ for i=1:4
 end
 % Generate example quadratic fields (Linear feedback) to test conservatism
 alpha_best=zeros(1,n_L);
-for i=1:n_L    
-    G_cl=feedback(G_veh,L(1,i),-1);
+for i=1:n_L  
+    if example<=3
+        G_cl=feedback(G_veh,L(1,i),-1);
+    elseif example==4
+        H=diag(m+L(i)*rand(3,1));
+        G_cl=feedback(G_veh,H,-1);
+    elseif example==5
+        H=diag(m+L(i)*rand(4,1));
+        G_cl=feedback(G_veh,H,-1);
+    end    
     alpha_best(1,i)=-1*max(real(pole(G_cl)));
 end
 save('.\data\lb_lin');
