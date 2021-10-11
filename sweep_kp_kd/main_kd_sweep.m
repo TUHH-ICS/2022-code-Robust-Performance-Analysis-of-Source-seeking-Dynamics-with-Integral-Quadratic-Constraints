@@ -1,32 +1,62 @@
-% This script is used to reproduce data for Example 7_20 from Scherer and
-% Weiland's LMI notes. It is an exercise with an odd sector bounded
-% non-linearity
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
+% This script is used to generate data and plot the results for the LTI
+% quadrotor example presented in Fig.5 in the above paper.  
+
 close all
 clear
 clc
 addpath('..\analysis_scripts')
 addpath(genpath('..\vehicles\quadrotor'))
-%% Setup optimization
 
+% Setup optimization
 % Sector bounds
 m=1; % lower bound on the sector
 L=10;  % Upper bound on the sector
 
 % Optimization tolerences
-tolerences.cvx_tol=1e-3;
-tolerences.bisect_tol=1e-3;
-tolerences.cond_tol=1e8;
+tolerences.cvx_tol=1e-3; % Tolerence for definiteness in LMIs
+tolerences.bisect_tol=1e-3; % Tolerence in alpha for the bisect-algorithm 
+tolerences.cond_tol=1e8; % Tolerence for bounding the cond no of positive def variables
 
-
+% Pre-filter gains
 kp=1;
 kd=[1:0.5:14,16:2:30];
 
+% Run the analysis for different cases defined in the multiplier structure
+% with the following properties:
 
-% Multiplier class
-% Select a multiplier class from the following choices
-% 1. Circle criterion
-% 2. Full block circle criterion
-% 3. Zames Falb multipliers
+% id: 
+% This determines the kind of multiplier used with the following choices
+%     1. Circle criterion
+%     6. Zames Falb multipliers with analysis LMIs for LTI systems
+%     7. Zames Falb multipliers with analysis LMIs for LPV systems
+
+% rho:
+% This is valid only for Zames Falb multipliers and is the pole location
+% for the basis functions parameterizing the multiplier
+
+% psi_order:
+% This is valid only for Zames Falb multipliers and is the order of the
+% multiplier that is being searched over
+
+% odd_flag:
+% This is valid only for Zames Falb multipliers and is set to one if the
+% non-linearity under consideration is odd and is set to 0 otherwise
+
+% causal_flag:
+% This is valid only for Zames Falb multipliers. It should be set to 1 if
+% restricting the search to causal multipliers, set to -1 is restricting
+% the search to anti-causal multipliers and set to 0 is searching over
+% general non-causal multipliers which includes causal and non-causal
+% parts.
+
 multiplier_flag=[1,60,61,59];
 for i=1:4    
     switch multiplier_flag(1,i)
@@ -62,9 +92,9 @@ end
 %% Plot data
 plot_data
 %% Functions
+function [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,tolerences,multiplier_class)
 % This functions sweeps kp,kd and finds the best covergence rate estimate 
 % by running a bisection algorithm for each fixed kp,kd
-function [alpha_best]=sweep_kp_kd(m,L,kp,kd,alpha_lims,tolerences,multiplier_class)    
     n_p=length(kp);
     n_d=length(kd);
     alpha_best=zeros(n_p,n_d);   

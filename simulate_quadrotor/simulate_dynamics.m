@@ -1,4 +1,16 @@
-% This script numerically simulates the dynamics
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
+% This script is used to generate data and plot the results for the LTI
+% quadrotor example presented in Fig.6 in the above paper.  
+
+% This script numerically simulates the dynamics of a quadrotor for optimal
+% gains selected using the circle criterion and zames falb multipliers
 close all
 clear
 clc
