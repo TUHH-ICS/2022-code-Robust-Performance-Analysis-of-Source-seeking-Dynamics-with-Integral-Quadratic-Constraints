@@ -1,3 +1,11 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function G_quad_wrapped = hinf_design_2DOF_four_block(P,ref_dim)
 % This function designs an hinf controller with 2DOF and fblock gp
     [A,B,C,D]=ssdata(P);    

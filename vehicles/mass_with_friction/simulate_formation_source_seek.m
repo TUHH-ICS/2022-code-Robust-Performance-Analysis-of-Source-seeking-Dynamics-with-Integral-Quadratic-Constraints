@@ -1,3 +1,11 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function [trajs]= simulate_formation_source_seek(G_veh,x_ic,form_ref,grad_field,Lap,time_steps,dt)
 % This function simulates the feedback loop (G,grad)
     [A_veh,B_veh,C_veh,D_veh]=ssdata(G_veh);

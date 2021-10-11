@@ -1,3 +1,11 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function [G]=define_G_mass_with_friction_wrapped(dim,c_damp,mass,step_size)
 % This function defines a closed-loop vehicle model that has flocking force
 % as input and position and velocity as output

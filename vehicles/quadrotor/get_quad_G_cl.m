@@ -1,3 +1,11 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function G_quad_wrapped=get_quad_G_cl()
 % This function defines the quadrotor model, designs a tracking controller
 % and returns wrapped up closed loop of the quadrotor that takes as input
