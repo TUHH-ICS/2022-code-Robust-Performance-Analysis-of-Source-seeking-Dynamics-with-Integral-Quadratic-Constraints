@@ -1,5 +1,15 @@
-% This script is used to plot the robustness of the source-seeking
-% algorithms to fields with increasing condition number
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
+% This script is used to generate data and plot the results for the LPV
+% examples presented in Fig. 8 and Fig. 9 in the above paper.  
+
+
 close all
 clear
 clc
@@ -11,9 +21,9 @@ addpath(genpath('..\analysis_scripts'))
 m=1; % lower bound on the sector
 
 % Optimization tolerences
-tolerences.cvx_tol=1e-3;
-tolerences.bisect_tol=1e-3;
-tolerences.cond_tol=1e8;
+tolerences.cvx_tol=1e-3; % Tolerence for definiteness in LMIs
+tolerences.bisect_tol=1e-3; % Tolerence in alpha for the bisect-algorithm 
+tolerences.cond_tol=1e8; % Tolerence for bounding the cond no of positive def variables
 
 
 for eg=1:2
@@ -46,8 +56,7 @@ for eg=1:2
             % Quadrotor dynamics 
             addpath(genpath('..\vehicles\quadrotor'))
             addpath(genpath('..\vehicles\LPV_models'))
-            kp=[1,1];
-            kd=[5,5];
+            kp=[1,1]; kd=[5,5]; % Pre-filter gains
             mass=[0.2,2];
             L=1:0.5:10;  % Upper bound on the sector
             n_L=length(L);
@@ -58,11 +67,34 @@ for eg=1:2
             save_folder='.\data_quadrotor';
     end
 
-    % Multiplier class
-    % Select a multiplier class from the following choices
-    % 1. Circle criterion
-    % 2. Full block circle criterion
-    % 3. Zames Falb multipliers
+    % Run the analysis for different cases defined in the multiplier structure
+    % with the following properties:
+
+    % id: 
+    % This determines the kind of multiplier used with the following choices
+    %     1. Circle criterion
+    %     6. Zames Falb multipliers with analysis LMIs for LTI systems
+    %     7. Zames Falb multipliers with analysis LMIs for LPV systems
+
+    % rho:
+    % This is valid only for Zames Falb multipliers and is the pole location
+    % for the basis functions parameterizing the multiplier
+
+    % psi_order:
+    % This is valid only for Zames Falb multipliers and is the order of the
+    % multiplier that is being searched over
+
+    % odd_flag:
+    % This is valid only for Zames Falb multipliers and is set to one if the
+    % non-linearity under consideration is odd and is set to 0 otherwise
+
+    % causal_flag:
+    % This is valid only for Zames Falb multipliers. It should be set to 1 if
+    % restricting the search to causal multipliers, set to -1 is restricting
+    % the search to anti-causal multipliers and set to 0 is searching over
+    % general non-causal multipliers which includes causal and non-causal
+    % parts.
+    
     multiplier_flag=[70,71,69,702,703,704,705];
     for i=1:7
         switch multiplier_flag(1,i)        
@@ -137,9 +169,9 @@ for eg=1:2
     plot_data
 end
 %% Functions
+function [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,tolerences,multiplier_class)
 % This functions sweeps L and finds the best covergence rate estimate by
 % running a bisection algorithm for each fixed L
-function [alpha_best]=sweep_L(G_veh,m,L,alpha_lims,tolerences,multiplier_class)
     n_L=size(L,2);    
     alpha_best=zeros(1,n_L);    
     for j=1:n_L
