@@ -1,6 +1,14 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function [status,P]=verify_exp_stab_CC(G_veh,alpha,sec_1,sec_2,cond_tol,tol)
-% This function runs the analysis LMI with cvx and return the status and
-% the storage function matrix P. 
+% This function runs the analysis LMI with cvx using the circle criterion and return the status and
+% the storage matrix P. 
     
     [A_G,B_G,C_G,D_G]=ssdata(G_veh);
     
@@ -29,7 +37,9 @@ function [status,P]=verify_exp_stab_CC(G_veh,alpha,sec_1,sec_2,cond_tol,tol)
     
 end
 function [status,P]=verify_exp_stab_alpha_CC_LMI(PSI_GI,M,alpha,cond_tol,tol)
- % This function runs the exp-stab analysis KYP Lemma LMI
+ % This function runs the exp-stab analysis KYP Lemma LMI for the static
+ % multiplier M corresponding to the circle criterion
+ 
     status=false;
     % Get state-space matrics
     [A,B,C,D]=ssdata(PSI_GI);    

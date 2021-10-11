@@ -1,6 +1,14 @@
+%---------------------------------------------------------------------------------------------------
+% For Paper
+% "Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints"
+% by Adwait Datar and Herbert Werner
+% Copyright (c) Institute of Control Systems, Hamburg University of Technology. All rights reserved.
+% Licensed under the GPLv3. See LICENSE in the project root for license information.
+% Author(s): Adwait Datar
+%---------------------------------------------------------------------------------------------------
 function [status,X]=verify_exp_stab_FBCC(G_veh,alpha,sec_1,sec_2,cond_tol,tol)
-% This function runs the analysis LMI with cvx and returns the status and
-% the storage function matrix P. 
+% This function runs the analysis LMI with cvx using the full block circle criterion and returns 
+% the status and the storage function matrix P. 
   
     [A,B,C,D]=ssdata(G_veh);
     [~,nu]=size(D);
@@ -15,7 +23,12 @@ function [status,X]=verify_exp_stab_FBCC(G_veh,alpha,sec_1,sec_2,cond_tol,tol)
     [status,X]=verify_exp_stab_FBCC_LMI(Psi_GI,alpha,sec_1,sec_2,cond_tol,tol);
 end
 function [status,X]=verify_exp_stab_FBCC_LMI(Psi_GI,alpha,sec_1,sec_2,cond_tol,tol)
-% This function runs the exp-stab analysis KYP Lemma LMI
+% This function runs the analysis LMI with cvx using the full block circle criterion and return 
+% the status and the storage matrix P. 
+% Refer to the following paper for details:
+% Scherer, C., 2021. Dissipativity and Integral Quadratic Constraints, Tailored computational 
+% robustness tests for complex interconnections. arXiv preprint arXiv:2105.07401.
+
     status=false;
     [A,B,C,D]=ssdata(Psi_GI);
     n=size(A,1);
@@ -31,12 +44,11 @@ function [status,X]=verify_exp_stab_FBCC_LMI(Psi_GI,alpha,sec_1,sec_2,cond_tol,t
     variable R(dim,dim) symmetric
 
     % Multiplier class
-    % Create the multiplier class
+    % Create the vertices of the convex polytope and verify the LMI there
     dec=0:1:(2^dim)-1;
     vec=dec2bin(dec)-'0';
     d=sec_1*(~vec)+sec_2*(vec);
-    E=@(delta)[eye(dim);diag(delta)];
-    
+    E=@(delta)[eye(dim);diag(delta)];    
     C1=E(d(1,:))'*[Q,S;S',R]*E(d(1,:));
     C2=E(d(2,:))'*[Q,S;S',R]*E(d(2,:));
     C3=E(d(3,:))'*[Q,S;S',R]*E(d(3,:));
