@@ -23,5 +23,5 @@ To run the simulation files, some additional packages need to be installed first
 1. Install [CVX](http://cvxr.com/cvx/download/)
 
 The simulation code in this repository was tested in the following environment:
-* *Windows 10 Pro* Version 20H2 ??
+* *Windows 10 Pro* Version 20H2
 * *Matlab* 2021a
