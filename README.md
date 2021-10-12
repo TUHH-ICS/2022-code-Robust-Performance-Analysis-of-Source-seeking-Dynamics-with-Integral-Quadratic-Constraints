@@ -1,6 +1,6 @@
 # Robust Performance Analysis of Source-Seeking Dynamics with Integral Quadratic Constraints
 
-[![DOI](add zenodo badge)](add link)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.5564716.svg)](https://doi.org/10.5281/zenodo.5564716) 
 
 ## General
 
